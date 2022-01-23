@@ -13,12 +13,20 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = 0.15f;
     private float _canFire = -1f;
     [SerializeField] private int _lives = 3;
+    private SpawnManager _spawnManager;
 
     // Start is called before the first frame update
     void Start()
     {
         // take turrent position = new position (0,0,0);
+        
         transform.position = new Vector3(0, 0, 0);
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is Null");
+        }
     }
 
     // Update is called once per frame
@@ -77,7 +85,7 @@ public class Player : MonoBehaviour
         // if i hit the space key
         // spawn gameobject
         _canFire = Time.time + _fireRate;
-        Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity); // Quaternion.identity = rotation 0
+        Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity); // Quaternion.identity = rotation 0
     }
 
     public void Damage()
@@ -87,6 +95,10 @@ public class Player : MonoBehaviour
         // destroy us
         if (_lives < 1)
         {
+            //Find the GameObject then get Component
+            // Communicate with SpawnManager
+            //Let them know to stop spawning
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }
