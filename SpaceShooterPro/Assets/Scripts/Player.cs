@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _lives = 3;
     private SpawnManager _spawnManager;
     [SerializeField] private GameObject _TripleLaser;
-    [SerializeField] private bool IsTripleShotActive = false;
-    [SerializeField] private bool IsSuperSpeedActive = false;
+    private bool IsTripleShotActive = false;
+    private bool IsSuperSpeedActive = false;
     [SerializeField] private float _SuperSpeed = 10.0f;
     // variable for IsTripleShotActive
 
@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal") * _speed * Time.deltaTime; // Input.GetAxis returns float 
         float verticalInput = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
+
         if (IsSuperSpeedActive == false)
         {
             transform.Translate(new Vector3(horizontalInput, verticalInput, 0));
