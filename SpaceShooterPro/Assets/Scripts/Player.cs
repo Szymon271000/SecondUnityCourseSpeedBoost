@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     [SerializeField] private GameObject _TripleLaser;
     [SerializeField] private bool IsTripleShotActive = false;
+    [SerializeField] private bool IsSuperSpeedActive = false;
+    [SerializeField] private float _SuperSpeed = 10.0f;
     // variable for IsTripleShotActive
 
     // Start is called before the first frame update
@@ -47,7 +49,15 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal") * _speed * Time.deltaTime; // Input.GetAxis returns float 
         float verticalInput = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
-        transform.Translate(new Vector3(horizontalInput, verticalInput, 0));
+        if (IsSuperSpeedActive == false)
+        {
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0));
+        }
+        else if (IsSuperSpeedActive == true)
+        {
+            SuperSpeedActive();
+        }
+        
 
         // if player position on the y is greater than 0
         // y position = 0
@@ -137,4 +147,18 @@ public class Player : MonoBehaviour
     //Ienumerator TripleShotPowerDownRoutine
     //wait 5 seconds
     // set the triple shot to false
+    public void SuperSpeedActive()
+    {
+        IsSuperSpeedActive = true;
+        StartCoroutine("SuperSpeed");
+    }
+
+    IEnumerator SuperSpeed() 
+    {
+        float horizontalInput = Input.GetAxis("Horizontal") * _SuperSpeed * Time.deltaTime; // Input.GetAxis returns float 
+        float verticalInput = Input.GetAxis("Vertical") * _SuperSpeed * Time.deltaTime;
+        transform.Translate(new Vector3(horizontalInput, verticalInput, 0));
+        yield return new WaitForSeconds(5.0f);
+        IsSuperSpeedActive = false;
+    }
 }

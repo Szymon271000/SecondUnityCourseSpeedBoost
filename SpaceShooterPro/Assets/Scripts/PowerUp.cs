@@ -5,11 +5,15 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
-    //private Player _player;
+    //ID for Powerups
+    //0 = Triple Shot
+    //1 = Speed
+    //2 = Shields
+    [SerializeField]private int PowerUpId; // 0 = TripleShoy 1 = Speed 2 = Shields
     // Start is called before the first frame update
     void Start()
     {
-        //_player = GameObject.Find("Player").GetComponent<Player>();
+        
     }
 
     // Update is called once per frame
@@ -33,10 +37,23 @@ public class PowerUp : MonoBehaviour
             Player player = collision.transform.GetComponent<Player>();
             if (player != null)
             {
-                player.TripleShotActive();
-                Destroy(this.gameObject);
+                switch (PowerUpId)
+                {
+                    case 0:
+                        player.TripleShotActive();
+                        break;
+                    case 1:
+                        player.SuperSpeedActive();
+                        break;
+                    case 2:
+                        Debug.Log("Shields Up");
+                        break;
+                    default:
+                        Debug.Log("Default Value");
+                        break;
+                }
             }
-            
+            Destroy(this.gameObject);
         }
     }
     // OnTriggerCollision
