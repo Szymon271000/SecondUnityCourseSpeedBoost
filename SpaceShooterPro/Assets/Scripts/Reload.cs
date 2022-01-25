@@ -12,7 +12,7 @@ public class Reload : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && _IsGameOver == true)
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene(1);
         }
     }
     public void GameOver()
