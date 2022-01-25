@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _ShieldsVisualizer;
     private int _Score;
     private UIManager _UIManager;
+    [SerializeField] GameObject _RightEngine;
+    [SerializeField] GameObject _LeftEngine;
+
     // variable for IsTripleShotActive
     // variable reference to the shield visualizer
 
@@ -142,6 +145,18 @@ public class Player : MonoBehaviour
         else
         {
             _lives--;
+            if (_lives == 2)
+            {
+                _RightEngine.SetActive(true);
+            }
+            else if (_lives == 1)
+            {
+                _LeftEngine.SetActive(true);
+            }
+            //if lives is 2
+            //enable right engine
+            // else if lives is 1
+            // enable left engine
             _UIManager.UpdateLives(_lives);
             // check if dead
             // destroy us
