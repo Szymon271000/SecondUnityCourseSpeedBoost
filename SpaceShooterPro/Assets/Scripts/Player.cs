@@ -18,19 +18,28 @@ public class Player : MonoBehaviour
     private bool IsTripleShotActive = false;
     private bool IsSuperSpeedActive = false;
     [SerializeField] private float _SuperSpeed = 10.0f;
+    private bool IsShieldsActive = false;
+    [SerializeField] private GameObject _ShieldsVisualizer;
+    private int _Score;
+    private UIManager _UIManager;
     // variable for IsTripleShotActive
+    // variable reference to the shield visualizer
 
     // Start is called before the first frame update
     void Start()
     {
         // take turrent position = new position (0,0,0);
-        
+        _Score = 0;
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is Null");
+        }
+        if (_UIManager == null)
+        {
+            Debug.LogError("UI Manager is null");
         }
     }
 
@@ -119,17 +128,34 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _lives--;
-        // check if dead
-        // destroy us
-        if (_lives < 1)
+        // if shileds is active
+        // do nothing...
+        //deactiv shields
+        //return;
+        if (IsShieldsActive == true)
         {
-            //Find the GameObject then get Component
-            // Communicate with SpawnManager
-            //Let them know to stop spawning
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            IsShieldsActive = false;
+            _ShieldsVisualizer.SetActive(false);
+            //disable the visualizer
+            return;       
         }
+        else
+        {
+            _lives--;
+            _UIManager.UpdateLives(_lives);
+            // check if dead
+            // destroy us
+            if (_lives < 1)
+            {
+                //Find the GameObject then get Component
+                // Communicate with SpawnManager
+                //Let them know to stop spawning
+                _spawnManager.OnPlayerDeath();
+                Destroy(this.gameObject);
+                _UIManager.GameOver();
+            }
+        }
+        
     }
 
     public void TripleShotActive()
@@ -162,4 +188,19 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         IsSuperSpeedActive = false;
     }
+
+    public void ShieldsActive()
+    {
+        IsShieldsActive = true;
+        _ShieldsVisualizer.SetActive(true);
+        //enable the visualizer
+    }
+
+    public void AddScore(int points)
+    {
+        _Score += points;
+        _UIManager.UpdateScore(_Score);
+    }
+    // method to add 10 to the score
+    //Communicate with the UI to update the score
 }
