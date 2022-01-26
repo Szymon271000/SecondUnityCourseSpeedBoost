@@ -37,6 +37,7 @@ public class PowerUp : MonoBehaviour
             Player player = collision.transform.GetComponent<Player>();
             if (player != null)
             {
+                player.PowerUpSound();
                 switch (PowerUpId)
                 {
                     case 0:

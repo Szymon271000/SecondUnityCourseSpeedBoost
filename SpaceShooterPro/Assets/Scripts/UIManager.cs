@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _RestartText;
     private Reload reload;
     private bool _IsGameOver;
+    private SpawnManager _SpawnManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
         _GameOverText.enabled = false;
         _ScoreText.text = "Score: 0";
         reload = GameObject.Find("ReloadManager").GetComponent<Reload>();
+        _SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -42,6 +44,7 @@ public class UIManager : MonoBehaviour
         _IsGameOver = true;
         if (_IsGameOver == true)
         {
+            _SpawnManager.OnPlayerDeath();
             _GameOverText.enabled = true;
             _RestartText.enabled = true;
             reload.GameOver();

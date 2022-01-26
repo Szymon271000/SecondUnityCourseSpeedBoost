@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
     private UIManager _UIManager;
     [SerializeField] GameObject _RightEngine;
     [SerializeField] GameObject _LeftEngine;
-
+    private AudioSource LaserShot;
+    [SerializeField] private AudioClip[] _LaserSound;
     // variable for IsTripleShotActive
     // variable reference to the shield visualizer
 
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("UI Manager is null");
         }
+        LaserShot = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -124,9 +126,12 @@ public class Player : MonoBehaviour
         }
         // if space key press, fire 1 laser
         // if tripleshotActive is true
-            // fire 3 lasers  (triple shot prefab)
+        // fire 3 lasers  (triple shot prefab)
         //else fire 1 laaser
         // instatiate 3 lasers (triple shot prefab)
+        //play the laser audio clip
+        LaserShot.clip = _LaserSound[0];
+        LaserShot.Play();
     }
 
     public void Damage()
@@ -165,9 +170,11 @@ public class Player : MonoBehaviour
                 //Find the GameObject then get Component
                 // Communicate with SpawnManager
                 //Let them know to stop spawning
+                
                 _spawnManager.OnPlayerDeath();
-                Destroy(this.gameObject);
+                Destroy(this.gameObject, 0.2f);
                 _UIManager.GameOver();
+                
             }
         }
         
@@ -218,4 +225,16 @@ public class Player : MonoBehaviour
     }
     // method to add 10 to the score
     //Communicate with the UI to update the score
+
+    public void DistructionSound()
+    {
+        LaserShot.clip = _LaserSound[1];
+        LaserShot.Play();
+    }
+
+    public void PowerUpSound()
+    {
+        LaserShot.clip = _LaserSound[2];
+        LaserShot.Play();
+    }
 }
