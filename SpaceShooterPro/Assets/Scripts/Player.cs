@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)) && Time.time > _canFire)
         {
             FireLaser();
         }
