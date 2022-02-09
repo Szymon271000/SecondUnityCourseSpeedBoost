@@ -14,6 +14,10 @@ public class Reload : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+        else if (Input.GetKeyDown(KeyCode.Escape) && _IsGameOver == true)
+        {
+            Application.Quit();
+        }
     }
     public void GameOver()
     {

@@ -9,14 +9,20 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+
+         MoveUp();
+
+    }
+    void MoveUp()
+    {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
-        if (transform.position.y  > 8)
+        if (transform.position.y > 8)
         {
             // check id this object has a parent
             if (transform.parent != null)
@@ -26,4 +32,5 @@ public class Laser : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
 }

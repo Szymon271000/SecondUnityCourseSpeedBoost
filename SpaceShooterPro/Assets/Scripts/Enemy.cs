@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     private Animator _Animator;
     [SerializeField] private AudioClip _Distruction;
     private AudioSource _AudioSource;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,11 +30,16 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateMovement();
+    }
+
+    void CalculateMovement()
+    {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         // move down at 4 meters per second
         // if bottom at screen
         // respwan at top a new random x position
-        if (transform.position.y < -6 )
+        if (transform.position.y < -6)
         {
             float RandomX = Random.Range(-9, 9);
             transform.position = new Vector3(RandomX, 7.5f, 0);
@@ -70,6 +76,7 @@ public class Enemy : MonoBehaviour
             _Player.DistructionSound();
             _Animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.8f);
         }
         // if other is laser
